@@ -63,21 +63,21 @@ class MonkeyGetBitmapService(threading.Thread):
     def hand_user_con(self, user):
         ## print "hand_user_con %s" % (user.username)
         print "hand_user_con"
-#         try:
-#             isNormar=True
-#             while isNormar:
-#                 print("hand_user_con wait for data...")
-#                 data=user.skt.recv(1024)
-#                 time.sleep(1)
-#                 #分析消息
-#                 msg=data.split('|')
-#                 
-#                 ## 登录消息，记录名字
-#                 if msg[0]=='login':
-#                     print 'user [%s] login' % msg[1]
-#                     user.username=msg[1]
-#         except:
-#             isNormar=False
+        try:
+            isNormar=True
+            while isNormar:
+                print("hand_user_con wait for data...")
+                data=user.skt.recv(1024)
+                time.sleep(1)
+                #分析消息
+                msg=data.split('|')
+                 
+                ## 登录消息，记录名字
+                if msg[0]=='login':
+                    print 'user [%s] login' % msg[1]
+                    user.username=msg[1]
+        except:
+            isNormar=False
     
     def send_msg(self, msg):
         
