@@ -149,8 +149,11 @@ class MonkeyGetBitmapService(threading.Thread):
             ## print(filepath)
             result = self.device.takeSnapshot()
             result.writeToFile (filepath, 'png')
-            
-            self.easy_device.touch(By.id('id/socket_send'),md.DOWN_AND_UP)
+            try:
+                self.easy_device.touch(By.id('id/socket_send'),md.DOWN_AND_UP)
+            except:
+                print "not support touch"
+
             ## 发送"tackPic|finsh|" + filepath 到所有的连接到这里的客户端，通知客户端截图结束以及截图的位置
             ## 接收消息参看monkeyrunner_demo.py 里面的recieve_msg(self, username, skt):方法，这里
             ## 解析了这个参数，获取文件的路径并且做了显示

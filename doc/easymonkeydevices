@@ -1,0 +1,3 @@
+adb shell service call window 3
+若返回值是：Result: Parcel(00000000 00000001 '........') 说明View Server处于开启状态
+若返回值是：Result: Parcel(00000000 00000000 '........') 说明View Server处于关闭状态
