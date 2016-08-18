@@ -11,6 +11,10 @@ import threading, time
 from com.android.monkeyrunner import MonkeyRunner as mr
 from com.android.monkeyrunner import MonkeyDevice as md
 from com.android.monkeyrunner import MonkeyImage as mi
+
+from com.android.monkeyrunner.easy import EasyMonkeyDevice
+from com.android.monkeyrunner.easy import By
+
 from __builtin__ import file
 
 # test by lwl
@@ -47,6 +51,8 @@ class MonkeyGetBitmapService(threading.Thread):
         print ("waitForConnection...")
         # 在导入的时候MonkeyRunner 被命名为了mr,这里开始等待手机的连接
         self.device = mr.waitForConnection()
+        
+        self.easy_device = EasyMonkeyDevice(self.device)
         
         # 唤醒手机屏幕，如果屏幕么有唤醒是无法获取build.model 的
         self.device.wake();
@@ -144,6 +150,7 @@ class MonkeyGetBitmapService(threading.Thread):
             result = self.device.takeSnapshot()
             result.writeToFile (filepath, 'png')
             
+            self.easy_device.touch(By.id('id/socket_send'),md.DOWN_AND_UP)
             ## 发送"tackPic|finsh|" + filepath 到所有的连接到这里的客户端，通知客户端截图结束以及截图的位置
             ## 接收消息参看monkeyrunner_demo.py 里面的recieve_msg(self, username, skt):方法，这里
             ## 解析了这个参数，获取文件的路径并且做了显示
