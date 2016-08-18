@@ -63,27 +63,38 @@ class MonkeyGetBitmapService(threading.Thread):
     def hand_user_con(self, user):
         ## print "hand_user_con %s" % (user.username)
         print "hand_user_con"
-#         try:
-#             isNormar=True
-#             while isNormar:
-#                 print("hand_user_con wait for data...")
-#                 data=user.skt.recv(1024)
-#                 time.sleep(1)
-#                 #分析消息
-#                 msg=data.split('|')
-#                 
-#                 ## 登录消息，记录名字
-#                 if msg[0]=='login':
-#                     print 'user [%s] login' % msg[1]
-#                     user.username=msg[1]
-#         except:
-#             isNormar=False
+        try:
+            isNormar=True
+            while isNormar:
+                print("hand_user_con wait for data...")
+                data=user.skt.recv(1024)
+                time.sleep(1)
+                #分析消息
+                msg=data.split('|')
+                 
+                ## 登录消息，记录名字
+                if msg[0]=='login':
+                    print 'user [%s] login' % msg[1]
+                    user.username=msg[1]
+        except:
+            isNormar=False
     
     def send_msg(self, msg):
+        
+        ## 如果客户端关闭之后需要，需要把已经关闭的客户端添加到列表中，然后在最后移除
+        removeclienList = []
         ## 给指定用户名的人发送消息
         for usr in clienList:
-            usr.skt.send(msg)
-                
+            try:
+                usr.skt.send(msg)
+            except:
+                removeclienList.append(usr)
+                print "send to client error ... "
+        
+        ## 移除已经关闭的客户端socket
+        for usr in removeclienList:
+            clienList.remove(usr)
+        
     def startSocket(self):
         # 创建一个套接字
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -111,6 +122,7 @@ class MonkeyGetBitmapService(threading.Thread):
             # 开始运行线程，当这里调用开始之后就会执行hand_user_con
             t.start()  
         s.close()
+        print u'service close ...'
     
     
     def run(self):

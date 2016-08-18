@@ -1,0 +1,8 @@
+https://github.com/Abelzzg/AutoTestProject.git
+此工具可以自动生成测试报告，自动截图，自动获取控制台log，自动记录每一步操作。解决测试报告不友好、不能自动截图和报告分析的问题
+
+https://github.com/zouaiyong/monkeyrunner
+锤子便签的一个MonkeyRunner测试脚本
+
+https://github.com/liyuanhong/miaopaiAutoTestFramework.git 
+monkeyrunner编写的，秒拍自动化测试框架
