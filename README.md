@@ -1,0 +1,2 @@
+# Llxx_MonkeyAutoTest_Service
+为Llxx_MonkeyAutoTest提供MonkeyRunner的服务端支持实现
