@@ -82,6 +82,10 @@ class MonkeyGetBitmapService(threading.Thread):
                 if msg[0]=='login':
                     print 'user [%s] login' % msg[1]
                     user.username=msg[1]
+                if msg[0] == 'getwh':
+                    user.skt.send("Physical size|100|100");
+                else:
+                    print msg[0]
         except:
             isNormar=False
     
