@@ -38,6 +38,7 @@ class client:
 clienList = [] 
 PARAMS = "params"
 ACTION = "action"
+SUCESS = "sucess"
 class MonkeyService(threading.Thread):
     def __init__(self):
         
@@ -51,10 +52,14 @@ class MonkeyService(threading.Thread):
         self.device = None
         
     def handler_acion(self, message, user):
+        sucess = False
         if message[ACTION] == "takesnapshot":
             result = self.device.takeSnapshot()
             result.writeToFile (message[PARAMS]["filepath"], 'png')
             print "save file to " + message[PARAMS]["filepath"]
+            sucess =  True
+            
+        self.sendResult(user, message , sucess)
             
     def handler_user_command(self, message, user):
         try:
@@ -63,6 +68,10 @@ class MonkeyService(threading.Thread):
         except Exception, e:
             print e
             print message
+            
+    def sendResult(self, user, message , sucess):
+        message[SUCESS] = sucess
+        user.skt.send(json.dumps(message, sort_keys=True))
         
     def hand_user_con(self, user):
         # # print "hand_user_con %s" % (user.username)
